@@ -1,21 +1,269 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <title>N7bek Ya 3zizty</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: #050510;
+      color: #f5f5f5;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Fullscreen intro */
+    .intro {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, #ff9a9e, #3a1c71);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      overflow: hidden;
+    }
+
+    .intro-text {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      color: #fff;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-align: center;
+      animation: fadeInUp 1.2s ease-out forwards,
+                 glow 2.5s ease-in-out infinite alternate;
+      opacity: 0;
+    }
+
+    .intro-hide {
+      animation: introOut 0.7s ease-in forwards;
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.9);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes glow {
+      0% {
+        text-shadow:
+          0 0 8px rgba(255, 255, 255, 0.5),
+          0 0 18px rgba(255, 0, 102, 0.8);
+      }
+      100% {
+        text-shadow:
+          0 0 18px rgba(255, 255, 255, 0.9),
+          0 0 40px rgba(255, 0, 153, 1);
+      }
+    }
+
+    @keyframes introOut {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.05);
+        visibility: hidden;
+      }
+    }
+
+    /* Main page content */
+    .page-content {
+      min-height: 100vh;
+      padding: 3rem 1.5rem 5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.5rem;
+      background: radial-gradient(circle at top, #1f2937, #020617);
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 16px;
+      padding: 2rem 2.5rem;
+      max-width: 720px;
+      width: 100%;
+      box-shadow:
+        0 20px 40px rgba(15, 23, 42, 0.7),
+        0 0 0 1px rgba(148, 163, 184, 0.2);
+      backdrop-filter: blur(18px);
+      text-align: center;
+    }
+
+    .title {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: #9ca3af;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.6rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: linear-gradient(120deg, #ec4899, #6366f1);
+      color: white;
+      box-shadow: 0 10px 25px rgba(236, 72, 153, 0.5);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 35px rgba(236, 72, 153, 0.7);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+      box-shadow: 0 8px 18px rgba(236, 72, 153, 0.55);
+    }
+
+    /* Video section you gave */
+    .posts-body.posts-content {
+      max-width: 900px;
+      width: 100%;
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 18px;
+      padding: 1.5rem;
+      box-shadow:
+        0 24px 50px rgba(15, 23, 42, 0.8),
+        0 0 0 1px rgba(148, 163, 184, 0.25);
+      backdrop-filter: blur(18px);
+    }
+
+    .video-serv {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 0.75rem;
+    }
+
+    .video-serv a {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.45rem 1.2rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #f9fafb;
+      background: linear-gradient(120deg, #22c55e, #0ea5e9);
+      box-shadow: 0 10px 22px rgba(34, 197, 94, 0.4);
+    }
+
+    .video-serv a:hover {
+      box-shadow: 0 16px 32px rgba(34, 197, 94, 0.6);
+    }
+
+    .video-con {
+      position: relative;
+      width: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #020617;
+      /* 16:9 responsive ratio */
+      padding-top: 56.25%;
+    }
+
+    .video-con iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
 </head>
 <body>
+  <!-- Intro Screen -->
+  <div class="intro">
+    <h1 class="intro-text">N7bek Ya 3zizty ❤️😘</h1>
+  </div>
+
+  <!-- Main content -->
+  <main class="page-content">
+    <section class="card">
+      <h2 class="title">Welcome to the site</h2>
+      <p class="subtitle">
+        Click the button and go down to the video player, 3zizty.
+      </p>
+      <button class="btn" id="go-video">Click here, 3zizty</button>
+    </section>
+
+    <!-- Video section -->
     <div class="posts-body posts-content" id="postsacs">
-                                                                           
-<div class="video-serv"><a href="https://s3.streaming-on.online/albaplayer/extra-1/" target="search_iframe">RefresH</a>
+      <div class="video-serv">
+        <a href="https://s3.streaming-on.online/albaplayer/extra-1/"
+           target="search_iframe">RefresH</a>
+      </div>
+
+      <div class="video-con">
+        <iframe
+          allowfullscreen
+          class="cf"
+          frameborder="0"
+          name="search_iframe"
+          rel="nofollow"
+          sandbox="allow-forms allow-same-origin allow-scripts"
+          scrolling="no"
+          src="https://s3.streaming-on.online/albaplayer/extra-1/">
+        </iframe>
+      </div>
     </div>
-<div class="video-con">
-        <iframe allowfullscreen="" class="cf" frameborder="0" height="500px" name="search_iframe" rel="nofollow" sandbox="allow-forms allow-same-origin allow-scripts" scrolling="no" src="https://s3.streaming-on.online/albaplayer/extra-1/" width="100%"></iframe><p></p>
+  </main>
+  <audio autoplay loop style="display:none">
+    <source src="مريض بجمالها وهي دوايا و بيها طيب.mp3" type="audio/mpeg">
+  </audio>
+  <script>
+    // Hide intro after animation (3s)
+    window.addEventListener("load", () => {
+      const intro = document.querySelector(".intro");
+      setTimeout(() => {
+        intro.classList.add("intro-hide");
+      }, 3000);
+    });
 
-        </div>
-<audio scr="When We Met.mp3" controls >  </audio>     
+    // Button scroll to video section
+    document.getElementById("go-video").addEventListener("click", () => {
+      const videoSection = document.getElementById("postsacs");
+      if (videoSection) {
+        videoSection.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  </script>
 </body>
-
 </html>
-
